@@ -232,7 +232,7 @@ class App(ctk.CTk):
 
         ctk.CTkLabel(
             title_box,
-            text="📡  QR File Sharer",
+            text="📡  QRShare",
             font=ctk.CTkFont(family= "Calibri", size=26, weight="bold"),
             text_color="#F3F4F6"
         ).pack(anchor="w")
