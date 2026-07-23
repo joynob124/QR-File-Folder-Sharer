@@ -1,0 +1,194 @@
+  @import url('https://fonts.googleapis.com/css2?family=Rumer:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root { 
+    --bg:#0B0E14;
+    --surface:#151C2C; 
+    --border:#26334D; 
+    --accent:#00F2FE; 
+    --accent2:#10B981; 
+    --text:#F3F4F6; 
+    --muted:#9CA3AF; 
+    --hover:#1E293B; 
+  }
+
+  * { 
+    margin:0; 
+    padding:0; 
+    box-sizing:border-box;
+  }
+
+  body { 
+    background:var(--bg); 
+    color:var(--text); 
+    font-family:'Rumer',sans-serif; 
+    min-height:100vh; 
+    padding:2rem 1rem; 
+  }
+
+  .container { 
+    max-width:860px; 
+    margin:0 auto; 
+  }
+
+  header { 
+    display:flex; 
+    align-items:center; 
+    gap:1rem; 
+    margin-bottom:2rem; 
+    padding-bottom:1.5rem; 
+    border-bottom:1px solid var(--border); 
+  }
+  .logo { 
+    font-size:2.2rem; 
+    filter:drop-shadow(0 0 10px rgba(0,242,254,0.3)); 
+  }
+  .header-text h1 { 
+    font-size:1.5rem; 
+    font-weight:700; 
+    background:linear-gradient(135deg, #00F2FE, #4FACFE); 
+    -webkit-background-clip:text; 
+    -webkit-text-fill-color:transparent; 
+  }
+  
+  .header-text p { 
+    font-size:0.85rem; 
+    color:var(--muted); 
+    font-family:'JetBrains Mono',monospace; 
+    margin-top:0.2rem; 
+  }
+  .badge { 
+    margin-left:auto; 
+    display:flex; 
+    align-items:center; 
+    gap:0.5rem; 
+    padding:0.4rem 1rem; 
+    background:rgba(16,185,129,0.12); 
+    border:1px solid rgba(16,185,129,0.3); 
+    border-radius:50px; 
+    font-size:0.8rem; 
+    font-weight:600; 
+    color:var(--accent2); 
+  }
+  .breadcrumb { 
+    display:flex; 
+    align-items:center; 
+    gap:0.5rem; 
+    font-size:0.9rem; 
+    color:var(--muted); 
+    margin-bottom:1.2rem; 
+    flex-wrap:wrap; 
+  }
+
+  .breadcrumb a { 
+    color:var(--accent); 
+    text-decoration:none; 
+    font-weight:500; 
+  }
+
+  .breadcrumb a:hover { 
+    text-decoration:underline; 
+  }
+
+
+  .file-list { 
+    background:var(--surface); 
+    border:1px solid var(--border); 
+    border-radius:16px; 
+    overflow:hidden; 
+    box-shadow:0 10px 30px rgba(0,0,0,0.5); 
+  }
+
+
+  .file-list-header { 
+    display:grid; 
+    grid-template-columns:1fr 100px 120px; 
+    padding:0.8rem 1.4rem; 
+    font-size:0.75rem; 
+    font-weight:700; 
+    text-transform:uppercase; 
+    letter-spacing:0.08em; 
+    color:var(--muted); 
+    border-bottom:1px solid var(--border); 
+    background:rgba(255,255,255,0.01); 
+  
+  }
+
+  .file-item { 
+    display:grid; 
+    grid-template-columns:1fr 100px 120px; 
+    align-items:center; 
+    padding:0.95rem 1.4rem; 
+    border-bottom:1px solid var(--border); 
+    text-decoration:none; 
+    color:inherit; 
+    transition:all 0.15s ease; 
+  }
+  .file-item:last-child { 
+    border-bottom:none; 
+  }
+  
+  .file-item:hover { 
+    background:var(--hover); 
+  }
+
+  .file-name { 
+    display:flex; 
+    align-items:center; 
+    gap:0.85rem; 
+    min-width:0; 
+  }
+
+  .file-label { 
+    font-size:0.95rem; 
+    font-weight:500; 
+    white-space:nowrap; 
+    overflow:hidden; 
+    text-overflow:ellipsis; 
+  }
+  .file-item.is-dir .file-label { 
+    color:var(--accent); 
+  }
+
+
+  .file-size { 
+    font-size:0.82rem; 
+    color:var(--muted); 
+    font-family:'JetBrains Mono',monospace; 
+    text-align:right; 
+  }
+  
+  .download-btn { 
+    font-size:0.85rem; 
+    font-weight:600; 
+    color:var(--accent); 
+    text-align:right; 
+    opacity:0; 
+    transition:opacity 0.15s; 
+  }
+  
+  .file-item:hover .download-btn { 
+    opacity:1; 
+  }
+  
+
+  footer { 
+    margin-top:2rem; 
+    text-align:center; 
+    font-size:0.8rem; 
+    color:var(--muted); 
+  }
+  
+  footer code { 
+    font-family:'JetBrains Mono',monospace; 
+    background:var(--surface); 
+    padding:0.2rem 0.6rem; 
+    border-radius:6px; 
+    color:var(--accent); 
+    border:1px solid var(--border); 
+  }
+  
+  
+  @media (max-width:600px) { 
+    .file-list-header,.file-item { grid-template-columns:1fr 80px; } 
+    .download-btn { display:none; } 
+  }
