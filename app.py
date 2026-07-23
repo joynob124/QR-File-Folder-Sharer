@@ -1,10 +1,3 @@
-"""
-Local Network QR File Sharer — Premium Desktop GUI Application
---------------------------------------------------------------
-A futuristic, dark-themed, glassmorphism-inspired desktop app 
-built with CustomTkinter & Pillow.
-"""
-
 import customtkinter as ctk
 from tkinter import filedialog, messagebox
 import qrcode
@@ -26,8 +19,6 @@ if hasattr(sys.stdout, 'reconfigure'):
     except Exception:
         pass
 
-
-# ─── Helpers ───────────────────────────────────────────────────────────────
 
 def get_local_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -67,17 +58,13 @@ def get_file_icon(filename: str) -> str:
     return icons.get(ext, "📁")
 
 
-# The page markup and its CSS used to live inline in this file as one big
-# triple-quoted string. They're now separate files sitting right next to
-# gui.py: index.html (page skeleton, filled in with .format()) and style.css
-# (served over HTTP as /style.css).
+
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
 with open(os.path.join(APP_DIR, "index.html"), encoding="utf-8") as _f:
     HTML_TEMPLATE = _f.read()
 
 
-# ─── HTTP Handler ───────────────────────────────────────────────────────────
 
 class FileShareHandler(http.server.SimpleHTTPRequestHandler):
     shared_root = "."
@@ -85,8 +72,6 @@ class FileShareHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
         path = urllib.parse.unquote(self.path.split("?")[0])
 
-        # style.css is an app asset that lives next to gui.py — served from
-        # the app's own folder, NOT from the user's shared_root.
         if path == "/style.css":
             asset_path = os.path.join(APP_DIR, "style.css")
             if not os.path.isfile(asset_path):
@@ -113,9 +98,6 @@ class FileShareHandler(http.server.SimpleHTTPRequestHandler):
             self.send_error(404, "Not Found")
 
     def _serve_static_asset(self, fs_path):
-        """Serves an app asset (e.g. static/style.css) inline — no
-        Content-Disposition: attachment, so the browser applies it (as CSS)
-        instead of trying to download it."""
         try:
             file_size = os.path.getsize(fs_path)
             self.send_response(200)
@@ -201,8 +183,6 @@ class FileShareHandler(http.server.SimpleHTTPRequestHandler):
         pass
 
 
-# ─── Modern CustomTkinter GUI ───────────────────────────────────────────────
-
 ctk.set_appearance_mode("dark")
 
 class App(ctk.CTk):
@@ -224,7 +204,7 @@ class App(ctk.CTk):
 
     def _build_ui(self):
 
-        # ── Header ──────────────────────────────────────────────
+      
         hdr = ctk.CTkFrame(self, fg_color="transparent")
         hdr.pack(fill="x", padx=24, pady=(24, 14))
         title_box = ctk.CTkFrame(hdr, fg_color="transparent")
@@ -255,7 +235,7 @@ class App(ctk.CTk):
         )
         self.badge.pack(side="right")
 
-        # ── Path Card ───────────────────────────────────────────
+     
         card = ctk.CTkFrame(self, fg_color="#151C2C", corner_radius=16, border_width=1, border_color="#26334D")
         card.pack(fill="x", padx=24, pady=(0, 16))
 
@@ -306,11 +286,11 @@ class App(ctk.CTk):
             command=self._pick_file,
         ).pack(side="left")
 
-        # ── QR Code Display Card ────────────────────────────────
+     
         self.qr_card = ctk.CTkFrame(self, fg_color="#151C2C", corner_radius=16, border_width=1, border_color="#26334D")
         self.qr_card.pack(fill="both", expand=True, padx=24, pady=(0, 16))
 
-        # Placeholder when offline
+   
         self.qr_placeholder_frame = ctk.CTkFrame(self.qr_card, fg_color="transparent")
         self.qr_placeholder_frame.pack(expand=True)
 
@@ -335,13 +315,13 @@ class App(ctk.CTk):
             justify="center"
         ).pack(pady=(6, 0))
 
-        # QR Image container (Hidden initially)
+     
         self.qr_content_frame = ctk.CTkFrame(self.qr_card, fg_color="transparent")
 
         self.qr_img_label = ctk.CTkLabel(self.qr_content_frame, text="")
         self.qr_img_label.pack(pady=(16, 10))
 
-        # Server Address Box
+      
         self.url_box = ctk.CTkFrame(self.qr_content_frame, fg_color="#0B0E14", corner_radius=10, border_width=1, border_color="#26334D")
         self.url_box.pack(fill="x", padx=20, pady=(0, 16))
 
@@ -362,7 +342,7 @@ class App(ctk.CTk):
             command=self._copy_link,
         ).pack(side="right", padx=8, pady=8)
 
-        # ── Toggle Action Button ────────────────────────────────
+       
         self.toggle_btn = ctk.CTkButton(
             self,
             text="🚀  Start Server",
@@ -374,7 +354,7 @@ class App(ctk.CTk):
         )
         self.toggle_btn.pack(fill="x", padx=24, pady=(0, 24))
 
-    # ── Actions ────────────────────────────────────────────────────────────
+   
     def _pick_folder(self):
         p = filedialog.askdirectory()
         if p:
@@ -414,7 +394,7 @@ class App(ctk.CTk):
             self._srv_thread.start()
             self.is_running = True
 
-            # Build QR image
+          
             ip = get_local_ip()
             self.current_url = f"http://{ip}:{self.PORT}"
 
@@ -422,7 +402,7 @@ class App(ctk.CTk):
             qr.add_data(self.current_url)
             qr.make(fit=True)
             
-            # Convert to PIL Image cleanly
+        
             pil_img = qr.make_image(fill_color="#00F2FE", back_color="#0B0E14").get_image()
 
             ctk_img = ctk.CTkImage(light_image=pil_img, dark_image=pil_img, size=(210, 210))
@@ -433,7 +413,7 @@ class App(ctk.CTk):
 
             self.url_lbl.configure(text=self.current_url)
 
-            # Update status badge & button
+         
             self.badge.configure(text="● ONLINE", text_color="#10B981", fg_color="#122A22")
             self.toggle_btn.configure(text="⏹  Stop Server", fg_color="#EF4444", hover_color="#DC2626", text_color="#FFFFFF")
 
